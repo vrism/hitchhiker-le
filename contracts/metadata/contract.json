@@ -3,6 +3,6 @@
   "description": "Hitchihiker Limited Edition",
   "image": "ipfs://collectionimagehash",
   "external_link": "https://vrism.com",
-  "seller_fee_basis_points": 500,
+  "seller_fee_basis_points": 700,
   "fee_recipient": "0x03844B1BF51729a3E9f56A27883f6ABcdDbA29a6"
 }

@@ -50,7 +50,15 @@ yarn workspace contracts hardhat run scripts/airdrop.ts --network localhost
 3. Upload the image and metadata to the IPFS and pin them.
 4. Configure `contracts/.env` file. Please see `contracts/.env.example` for its example.
 5. Run following commands
-    ```
-    yarn workspace contracts hardhat run scripts/deploy.ts --network mainnet
-    yarn workspace contracts hardhat run scripts/airdrop.ts --network mainnet
-    ```
+   ```
+   yarn workspace contracts hardhat run scripts/deploy.ts --network mainnet
+   yarn workspace contracts hardhat run scripts/airdrop.ts --network mainnet
+   ```
+
+## Set up the contract URI for OpenSea
+
+Or you can use the OpenSea UI with your deployer account
+
+```shell
+yarn workspace contracts hardhat run scripts/opensea.ts --network mainnet
+```

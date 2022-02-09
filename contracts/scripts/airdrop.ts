@@ -25,8 +25,8 @@ async function main() {
   const response0 = await prompts({
     type: "text",
     name: "contract",
-    message: `Please enter the Hitchihiker LE contract address. You can configure AIRDROP_CONTRACT at the .env file.`,
-    initial: process.env.AIRDROP_CONTRACT,
+    message: `Please enter the Hitchihiker LE contract address. You can configure HITCHHIKER_LE at the .env file.`,
+    initial: process.env.HITCHHIKER_LE,
   });
   const address = response0.contract as string;
   if (!ethers.utils.isAddress(address)) {
