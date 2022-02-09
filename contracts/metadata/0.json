@@ -1,0 +1,8 @@
+{
+  "name": "Hitchihiker X Zipcy's Supernormal",
+  "description": "description here",
+  "tokenId": 0,
+  "image": "ipfs://imageipfshash",
+  "external_url": "https://vrism.com",
+  "attributes": [{ "trait_type": "traitA", "value": "valueA" }]
+}

@@ -1,0 +1,19 @@
+{
+  "name": "hitchhiker-le",
+  "version": "1.0.0",
+  "description": "Hitchihiker Sneakers Limited Edition",
+  "workspaces": [
+    "ui",
+    "contracts"
+  ],
+  "scripts": {
+    "build": "yarn workspace contracts build && yarn workspace ui build",
+    "develop": "yarn workspace contracts build && yarn workspace contracts hardhat node & yarn workspace ui start && wait",
+    "deploy": "yarn  workspace contracts hardhat run scripts/deploy.ts",
+    "airdrop": "yarn  workspace contracts hardhat run scripts/airdrop.ts"
+  },
+  "repository": "https://github.com/vrism/hitchhiker-le",
+  "author": "Dr.Keccak",
+  "license": "MIT",
+  "private": true
+}
