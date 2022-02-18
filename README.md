@@ -1,64 +1,46 @@
-# Hitchhiker LE
+# Advanced Sample Hardhat Project
 
-Expected node version is >= 16.0.0
+This project demonstrates an advanced Hardhat use case, integrating other tools commonly used alongside Hardhat in the ecosystem.
 
-## Install and build
+The project comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts. It also comes with a variety of other tools, preconfigured to work with the project code.
 
-```shell
-yarn
-yarn build
-```
-
-## Run unit test
+Try running some of the following tasks:
 
 ```shell
-yarn workspace contracts test
+npx hardhat accounts
+npx hardhat compile
+npx hardhat clean
+npx hardhat test
+npx hardhat node
+npx hardhat help
+REPORT_GAS=true npx hardhat test
+npx hardhat coverage
+npx hardhat run scripts/deploy.ts
+TS_NODE_FILES=true npx ts-node scripts/deploy.ts
+npx eslint '**/*.{js,ts}'
+npx eslint '**/*.{js,ts}' --fix
+npx prettier '**/*.{json,sol,md}' --check
+npx prettier '**/*.{json,sol,md}' --write
+npx solhint 'contracts/**/*.sol'
+npx solhint 'contracts/**/*.sol' --fix
 ```
 
-## Deploy test in local env
+# Etherscan verification
+
+To try out Etherscan verification, you first need to deploy a contract to an Ethereum network that's supported by Etherscan, such as Ropsten.
+
+In this project, copy the .env.example file to a file named .env, and then edit it to fill in the details. Enter your Etherscan API key, your Ropsten node URL (eg from Alchemy), and the private key of the account which will send the deployment transaction. With a valid .env file in place, first deploy your contract:
 
 ```shell
-# in terminal 1
-yarn workspace contracts hardhat node
+hardhat run --network ropsten scripts/sample-script.ts
 ```
+
+Then, copy the deployment address and paste it in to replace `DEPLOYED_CONTRACT_ADDRESS` in this command:
 
 ```shell
-# in terminal 2
-yarn workspace contracts hardhat run scripts/deploy.ts --network localhost
-yarn workspace contracts hardhat run scripts/airdrop.ts --network localhost
+npx hardhat verify --network ropsten DEPLOYED_CONTRACT_ADDRESS "Hello, Hardhat!"
 ```
 
-## Test w/ UI
+# Performance optimizations
 
-Please implement more details
-
-```shell
-# in terminal 1
-yarn build && yarn develop
-```
-
-```shell
-# in terminal 2
-yarn workspace contracts hardhat run scripts/deploy.ts --network localhost
-yarn workspace contracts hardhat run scripts/airdrop.ts --network localhost
-```
-
-## Deploy
-
-1. Prepare the airdrop list and create `{id}.json` file at the `./airdrops` directory.
-2. Prepare the metadata and create `{id}.json` file at the `./metadata` directory.
-3. Upload the image and metadata to the IPFS and pin them.
-4. Configure `contracts/.env` file. Please see `contracts/.env.example` for its example.
-5. Run following commands
-   ```
-   yarn workspace contracts hardhat run scripts/deploy.ts --network mainnet
-   yarn workspace contracts hardhat run scripts/airdrop.ts --network mainnet
-   ```
-
-## Set up the contract URI for OpenSea
-
-Or you can use the OpenSea UI with your deployer account
-
-```shell
-yarn workspace contracts hardhat run scripts/opensea.ts --network mainnet
-```
+For faster runs of your tests and scripts, consider skipping ts-node's type checking by setting the environment variable `TS_NODE_TRANSPILE_ONLY` to `1` in hardhat's environment. For more details see [the documentation](https://hardhat.org/guides/typescript.html#performance-optimizations).
