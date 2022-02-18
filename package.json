@@ -15,5 +15,11 @@
   "repository": "https://github.com/vrism/hitchhiker-le",
   "author": "Dr.Keccak",
   "license": "MIT",
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "ts-node": "^10.5.0"
+  },
+  "dependencies": {
+    "@pinata/sdk": "^1.1.23"
+  }
 }

@@ -1,7 +1,7 @@
 {
   "name": "Sample metadata name",
   "description": "Sample metadata desc",
-  "image": "ipfs://QmbFMke1KXqnYyBBWxB74N4c5SBnJMVAiMNRcGu6x1AwQH",
+  "image": "ipfs://sample hash",
   "external_url": "https://sample.com",
   "attributes": [
     {
