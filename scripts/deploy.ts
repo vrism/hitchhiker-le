@@ -4,13 +4,13 @@
 // When running the script with `npx hardhat run <script>` you'll find the Hardhat
 // Runtime Environment's members available in the global scope.
 import { ethers } from "hardhat";
+import { LedgerSigner } from "@anders-t/ethers-ledger";
 // eslint-disable-next-line camelcase
 import { HitchhikerLE__factory } from "../typechain";
 
 async function main() {
-  const [deployer] = await ethers.getSigners();
-  console.log("Deploy");
-  const hitchihikerLE = await new HitchhikerLE__factory(deployer).deploy();
+  const ledger = new LedgerSigner(ethers.provider);
+  const hitchihikerLE = await new HitchhikerLE__factory(ledger).deploy();
   await hitchihikerLE.deployed();
 
   console.log("HitchhikerLE deployed to:", hitchihikerLE.address);

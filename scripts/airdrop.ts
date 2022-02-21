@@ -14,6 +14,7 @@ import pinataSDK from "@pinata/sdk";
 // eslint-disable-next-line camelcase
 import { HitchhikerLE__factory } from "../typechain";
 import { merkleRoot } from "../utils/merkle-tree";
+import { LedgerSigner } from "@anders-t/ethers-ledger";
 
 dotenv.config();
 
@@ -23,9 +24,9 @@ const pinata = pinataSDK(
 );
 
 async function main() {
-  const [account] = await ethers.getSigners();
-  console.log("Deployer address: ", account.address);
-  if (!account) {
+  const ledger = new LedgerSigner(ethers.provider);
+  console.log("Deployer address: ", ledger.getAddress());
+  if (!ledger) {
     throw Error("Please configure PRIVATE_KEY at the .env file.");
   }
   const response0 = await prompts({
@@ -38,7 +39,7 @@ async function main() {
   if (!ethers.utils.isAddress(address)) {
     throw Error("Invalid contract address");
   }
-  const hhLE = new HitchhikerLE__factory(account).attach(address);
+  const hhLE = new HitchhikerLE__factory(ledger).attach(address);
   const AIRDROP_DIR = "./airdrops";
   const METADATA_DIR = "./metadata";
   const ASSET_DIR = "./assets";
@@ -79,11 +80,6 @@ async function main() {
   const metadata = JSON.parse(
     fs.readFileSync(`${METADATA_DIR}/${response.filename}`).toString()
   );
-  // const ipfs = await IPFS.create();
-  // const result = await ipfs.add(metadata);
-  // console.log("Metadata IPFS Hash:", result.path);
-
-  // 에셋(영상 또는 3D 모델) 업로드 수행 및 메타데이터 수정
   const assets: string[] = [];
 
   for (const filename of assetsDir) {
@@ -133,8 +129,6 @@ async function main() {
   });
 
   console.log(`Pinned ${result.IpfsHash}`);
-  // console.log(`Make sure that ${result.path} is pinned.`);
-  // await ipfs.stop();
   const airdropData = JSON.parse(
     fs.readFileSync(`${AIRDROP_DIR}/${response.filename}`).toString()
   );
