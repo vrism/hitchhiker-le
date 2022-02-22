@@ -1,0 +1,12 @@
+{
+  "name": "Vrism portal",
+  "description": "this is a 3D vrism portal designed to be displayed in lootpod",
+  "animation_url": "ipfs://samplehash",
+  "external_url": "https://vrism.com",
+  "attributes": [
+		{
+      "trait_type": "Limited Edition Number",
+      "value": 2
+    }
+  ]
+}

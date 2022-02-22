@@ -107,7 +107,7 @@ async function main() {
   console.log("Asset Hash: ");
   console.log(result0.IpfsHash);
 
-  metadata.image = "ipfs://" + result0.IpfsHash;
+  metadata.animation_url = "ipfs://" + result0.IpfsHash;
 
   console.log("Metadata:");
   console.log(metadata);
