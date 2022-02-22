@@ -11,3 +11,5 @@ dist
 
 sendgrid.env
 .vscode
+
+yarn.lock
