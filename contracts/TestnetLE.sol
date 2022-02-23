@@ -8,8 +8,8 @@ import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 contract TestnetLE is ERC1155Supply, Ownable {
     constructor() ERC1155("") Ownable() {}
 
-    string public name = "TestNet Limitied Edition";
-    string public symbol = "TNLE";
+    string public name = "Rinkeby Limitied Edition";
+    string public symbol = "RLE";
 
     string[] private _uri;
     string public contractURI;

@@ -1,12 +1,12 @@
 {
-  "name": "TestNet Collectible",
+  "name": "Rinkeby Collectible",
   "description": "Here is a cool description. Here is a cool description. Here is a cool description. Here is a cool description. Here is a cool description.",
-	"image": "ipfs://samplehash",
-  "animation_url": "ipfs://samplehash",
+  "image": "ipfs://QmXH2yFtH8BURt2ibRjd52Na59P3XFnsKyhym4gucKcUPi",
+  "animation_url": "ipfs://QmeynYjeMnWVXs4APAfr1GNRqUteAz3ABxYfBYGdstNvVB",
   "external_url": "https://google.com",
   "attributes": [
-		{
-      "trait_type": "TestNet Collectible",
+    {
+      "trait_type": "Rinkeby Collectible",
       "value": "Unknown's Test"
     }
   ]

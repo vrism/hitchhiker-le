@@ -1,8 +1,8 @@
 {
-  "name": "TestNet Limited Edition",
-  "description": "Here is a cool description. Here is a cool description. Here is a cool description. Here is a cool description. Here is a cool description.",
-  "image": "https://opensea.io/static/images/logos/opensea.svg",
-  "external_link": "https://google.com",
+  "name": "Rinkeby Limited Edition",
+  "description": "Here is not cool description.",
+  "image": "https://vrism.s3.ap-northeast-2.amazonaws.com/public/goodday.png",
+  "external_link": "https://testnets.opensea.io",
   "seller_fee_basis_points": 700,
   "fee_recipient": "0x15664FbB11e2BA575C4876f5c5297EcDC353B8e3"
 }
