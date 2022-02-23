@@ -11,6 +11,7 @@ import fs from "fs";
 import pinataSDK from "@pinata/sdk";
 // eslint-disable-next-line camelcase
 import { HitchhikerLE__factory } from "../typechain";
+import { LedgerSigner } from "@anders-t/ethers-ledger";
 
 dotenv.config();
 
@@ -20,9 +21,10 @@ const pinata = pinataSDK(
 );
 
 async function main() {
-  const [account] = await ethers.getSigners();
-  console.log("Deployer address: ", account.address);
-  if (!account) {
+  // Ledger 연결 확인
+  const ledger = new LedgerSigner(ethers.provider);
+  console.log("Deployer address: ", ledger.getAddress());
+  if (!ledger) {
     throw Error("Please configure PRIVATE_KEY at the .env file.");
   }
   const response0 = await prompts({
@@ -35,7 +37,7 @@ async function main() {
   if (!ethers.utils.isAddress(address)) {
     throw Error("Invalid contract address");
   }
-  const hhLE = new HitchhikerLE__factory(account).attach(address);
+  const hhLE = new HitchhikerLE__factory(ledger).attach(address);
   const CONTRACT_METADATA = "./metadata/contract.json";
   const contractMetadata = JSON.parse(fs.readFileSync(CONTRACT_METADATA).toString());
   

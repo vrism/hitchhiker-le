@@ -8,6 +8,9 @@ import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 contract HitchhikerLE is ERC1155Supply, Ownable {
     constructor() ERC1155("") Ownable() {}
 
+    string public name = "VRISM Limited Edition";
+    string public symbol = "VLE";
+
     string[] private _uri;
     string public contractURI;
     uint256[] public mintableUntil;
