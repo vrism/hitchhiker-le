@@ -43,7 +43,7 @@ async function main() {
   
   const result = await pinata.pinJSONToIPFS(contractMetadata, {
     pinataMetadata: {
-      name: "test_contract.json",
+      name: "contract.json",
     },
     pinataOptions: {
       cidVersion: 0,
@@ -52,7 +52,7 @@ async function main() {
 
   console.log("Contract Metadata IPFS Hash:", result.IpfsHash);
   console.log("Metadata:");
-  console.log(contractMetadata.toString());
+  console.log(contractMetadata);
   console.log(`Make sure that ${result.IpfsHash} is pinned.`);
   const response = await prompts({
     type: "confirm",
