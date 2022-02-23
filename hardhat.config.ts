@@ -29,6 +29,9 @@ const config: HardhatUserConfig = {
     rinkeby: {
       url: process.env.RINKEBY_URL || "",
       chainId: 4,
+      accounts: [
+        `0x${ process.env.RINKEBY_DEPLOYER }`
+      ]
     },
     mainnet: {
       url: process.env.MAINNET_URL || "",
