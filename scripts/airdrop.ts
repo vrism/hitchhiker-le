@@ -9,7 +9,6 @@ import { ethers } from "hardhat";
 import prompts from "prompts";
 import fs from "fs";
 import path from "path";
-// import * as IPFS from "ipfs-core";
 import pinataSDK from "@pinata/sdk";
 // eslint-disable-next-line camelcase
 import { HitchhikerLE__factory } from "../typechain";
@@ -24,11 +23,13 @@ const pinata = pinataSDK(
 );
 
 async function main() {
+  // Ledger 연결 확인
   const ledger = new LedgerSigner(ethers.provider);
   console.log("Deployer address: ", ledger.getAddress());
   if (!ledger) {
     throw Error("Please configure PRIVATE_KEY at the .env file.");
   }
+  // 컨트랙트 주소 확인
   const response0 = await prompts({
     type: "text",
     name: "contract",
@@ -39,28 +40,27 @@ async function main() {
   if (!ethers.utils.isAddress(address)) {
     throw Error("Invalid contract address");
   }
+
   const hhLE = new HitchhikerLE__factory(ledger).attach(address);
   const AIRDROP_DIR = "./airdrops";
   const METADATA_DIR = "./metadata";
   const ASSET_DIR = "./assets";
+  const THUMBNAIL_DIR = "./thumbnails";
   const airdrops = fs.readdirSync(AIRDROP_DIR);
   const assetsDir = fs.readdirSync(ASSET_DIR);
+  const thumbnailsDir = fs.readdirSync(THUMBNAIL_DIR);
+
+  // 토큰 등록 정보 확인
   console.log("Fetching data from Ethereum");
   const registered: string[] = [];
   for (const filename of airdrops) {
     const tokenId = Number.parseInt(path.basename(filename, ".json"));
     console.log(tokenId);
     const exist = await hhLE.exists(tokenId);
-    let uri: boolean = false;
-    try {
-      console.log(await hhLE.uri(tokenId));
-      uri = true;
-    } catch (e: any) {
-      const outOfBounds = e.toString().indexOf("out-of-bounds") > -1;
-      if (outOfBounds) uri = false;
-    }
-    if (exist || uri) registered.push(filename);
+    if (exist) registered.push(filename);
   }
+
+  // 등록할 토큰 확인
   const response = await prompts({
     type: "select",
     name: "filename",
@@ -77,9 +77,13 @@ async function main() {
       },
     ],
   });
+
+  // 메타데이터 업데이트
   const metadata = JSON.parse(
     fs.readFileSync(`${METADATA_DIR}/${response.filename}`).toString()
   );
+
+  // 에셋 업로드
   const assets: string[] = [];
 
   for (const filename of assetsDir) {
@@ -109,8 +113,48 @@ async function main() {
 
   metadata.animation_url = "ipfs://" + result0.IpfsHash;
 
+  // 썸네일 업로드
+  const thumbnails: string[] = [];
+
+  for (const filename of thumbnailsDir) {
+    const tokenId = Number.parseInt(filename.split(".")[0]);
+    const num = Number.parseInt(path.basename(response.filename, ".json"));
+
+    if (tokenId === num) thumbnails.push(filename);
+  }
+
+  if (thumbnails.length !== 1) throw Error("Thumbnail must be only one.");
+
+  const readableStreamForThumbnail = fs.createReadStream(
+    `${THUMBNAIL_DIR}/${thumbnails[0]}`
+  );
+
+  const resultForThumbnail = await pinata.pinFileToIPFS(readableStreamForThumbnail, {
+    pinataMetadata: {
+      name: thumbnails[0],
+    },
+    pinataOptions: {
+      cidVersion: 0,
+    },
+  });
+
+  console.log("Thumbnail Hash: ");
+  console.log(resultForThumbnail.IpfsHash);
+
+  metadata.image = "ipfs://" + resultForThumbnail.IpfsHash;
+
+
   console.log("Metadata:");
   console.log(metadata);
+
+  // 메타데이터 내용 확인
+  const metadataConfirm = await prompts({
+    type: "confirm",
+    name: "confirm",
+    message: "Is metadata ok?",
+  });
+
+  if (!metadataConfirm.confirm) throw Error("Reverted by user input. Please check a metadata and try agian.");
 
   console.log("Write updated metadata...");
   fs.writeFileSync(

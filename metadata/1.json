@@ -1,12 +1,13 @@
 {
-  "name": "Vrism portal",
-  "description": "this is a 3D vrism portal designed to be displayed in lootpod",
+  "name": "VRISM X Zipcy collab sneakers",
+  "description": "this is a special vrism limited edition for zipcy's surpernormal holders",
+  "image": "ipfs://sample.hash",
   "animation_url": "ipfs://samplehash",
   "external_url": "https://vrism.com",
   "attributes": [
 		{
       "trait_type": "Limited Edition Number",
-      "value": 2
+      "value": "1"
     }
   ]
 }

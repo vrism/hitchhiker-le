@@ -1,7 +1,7 @@
 {
   "name": "Hitchhiker Limited Edition",
-  "description": "Hitchhiker Limited Edition was given to those who participated or helped in special events. These are not a part of 10K Hitchhiker collection,so accordingly do not have holder's privileges",
-  "image": "ipfs://collectionimagehash",
+  "description": "Hitchhiker Limited Edition was given to those who participated or helped in special events. These are not a part of 10K Hitchhiker collection, so accordingly do not have holder's privileges.",
+  "image": "https://vrism.s3.ap-northeast-2.amazonaws.com/public/logo_160.png",
   "external_link": "https://vrism.com",
   "seller_fee_basis_points": 700,
   "fee_recipient": "0x0F64a01663b0373636AB8AB80f72D97F3147711C"
