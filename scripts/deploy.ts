@@ -5,15 +5,15 @@
 // Runtime Environment's members available in the global scope.
 import { ethers } from "hardhat";
 // eslint-disable-next-line camelcase
-import { HitchhikerLE__factory } from "../typechain";
+import { TestnetLE__factory } from "../typechain";
 
 async function main() {
   const [deployer] = await ethers.getSigners();
   console.log("Deploy");
-  const hitchihikerLE = await new HitchhikerLE__factory(deployer).deploy();
-  await hitchihikerLE.deployed();
+  const testnetLE = await new TestnetLE__factory(deployer).deploy();
+  await testnetLE.deployed();
 
-  console.log("HitchhikerLE deployed to:", hitchihikerLE.address);
+  console.log("TestnetLE deployed to:", testnetLE.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

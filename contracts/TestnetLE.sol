@@ -5,8 +5,11 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Supply.sol";
 import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 
-contract HitchhikerLE is ERC1155Supply, Ownable {
+contract TestnetLE is ERC1155Supply, Ownable {
     constructor() ERC1155("") Ownable() {}
+
+    string public name = "TestNet Limitied Edition";
+    string public symbol = "TNLE";
 
     string[] private _uri;
     string public contractURI;

@@ -8,11 +8,16 @@ import * as dotenv from "dotenv";
 import { ethers } from "hardhat";
 import prompts from "prompts";
 import fs from "fs";
-import * as IPFS from "ipfs-core";
+import pinataSDK from "@pinata/sdk";
 // eslint-disable-next-line camelcase
-import { HitchhikerLE__factory } from "../typechain";
+import { TestnetLE__factory } from "../typechain";
 
 dotenv.config();
+
+const pinata = pinataSDK(
+  process.env.PINATA_API_KEY || "",
+  process.env.PINATA_API_SECRET || ""
+);
 
 async function main() {
   const [account] = await ethers.getSigners();
@@ -23,30 +28,38 @@ async function main() {
   const response0 = await prompts({
     type: "text",
     name: "contract",
-    message: `Please enter the Hitchihiker LE contract address. You can configure HITCHHIKER_LE at the .env file.`,
-    initial: process.env.HITCHHIKER_LE,
+    message: `Please enter the Testnet LE contract address. You can configure TESTNET_LE at the .env file.`,
+    initial: process.env.TESTNET_LE,
   });
   const address = response0.contract as string;
   if (!ethers.utils.isAddress(address)) {
     throw Error("Invalid contract address");
   }
-  const hhLE = new HitchhikerLE__factory(account).attach(address);
+  const tnLE = new TestnetLE__factory(account).attach(address);
   const CONTRACT_METADATA = "./metadata/contract.json";
-  const contractMetadata = fs.readFileSync(CONTRACT_METADATA);
-  const ipfs = await IPFS.create();
-  const result = await ipfs.add(contractMetadata);
-  console.log("Contract Metadata IPFS Hash:", result.path);
+  const contractMetadata = JSON.parse(fs.readFileSync(CONTRACT_METADATA).toString());
+  
+  const result = await pinata.pinJSONToIPFS(contractMetadata, {
+    pinataMetadata: {
+      name: "test_contract.json",
+    },
+    pinataOptions: {
+      cidVersion: 0,
+    },
+  });
+
+  console.log("Contract Metadata IPFS Hash:", result.IpfsHash);
   console.log("Metadata:");
   console.log(contractMetadata.toString());
-  console.log(`Make sure that ${result.path} is pinned.`);
-  await ipfs.stop();
+  console.log(`Make sure that ${result.IpfsHash} is pinned.`);
+  
   const response = await prompts({
     type: "confirm",
     name: "confirm",
     message: "Will you update the contract URI?",
   });
   if (response.confirm) {
-    const tx = await hhLE.updateContractURI(`ipfs://${result.path}`);
+    const tx = await tnLE.updateContractURI(`ipfs://${result.IpfsHash}`);
     console.log("Submitted a update transaction: ", tx.hash);
     await tx.wait();
     console.log("Tx is confirmed.");

@@ -11,9 +11,8 @@ import fs from "fs";
 import path from "path";
 import pinataSDK from "@pinata/sdk";
 // eslint-disable-next-line camelcase
-import { HitchhikerLE__factory } from "../typechain";
+import { TestnetLE__factory } from "../typechain";
 import { merkleRoot } from "../utils/merkle-tree";
-import { LedgerSigner } from "@anders-t/ethers-ledger";
 
 dotenv.config();
 
@@ -23,25 +22,25 @@ const pinata = pinataSDK(
 );
 
 async function main() {
-  // Ledger 연결 확인
-  const ledger = new LedgerSigner(ethers.provider);
-  console.log("Deployer address: ", ledger.getAddress());
-  if (!ledger) {
+  // 계정 정보 확인
+  const [ account ] = await ethers.getSigners();
+  console.log("Deployer address: ", await account.getAddress());
+  if (!account) {
     throw Error("Please configure PRIVATE_KEY at the .env file.");
   }
   // 컨트랙트 주소 확인
   const response0 = await prompts({
     type: "text",
     name: "contract",
-    message: `Please enter the Hitchihiker LE contract address. You can configure HITCHHIKER_LE at the .env file.`,
-    initial: process.env.HITCHHIKER_LE,
+    message: `Please enter the Testnet LE contract address. You can configure TESTNET_LE at the .env file.`,
+    initial: process.env.TESTNET_LE,
   });
   const address = response0.contract as string;
   if (!ethers.utils.isAddress(address)) {
     throw Error("Invalid contract address");
   }
 
-  const hhLE = new HitchhikerLE__factory(ledger).attach(address);
+  const tnLE = new TestnetLE__factory(account).attach(address);
   const AIRDROP_DIR = "./airdrops";
   const METADATA_DIR = "./metadata";
   const ASSET_DIR = "./assets";
@@ -56,7 +55,7 @@ async function main() {
   for (const filename of airdrops) {
     const tokenId = Number.parseInt(path.basename(filename, ".json"));
     console.log(tokenId);
-    const exist = await hhLE.exists(tokenId);
+    const exist = await tnLE.exists(tokenId);
     if (exist) registered.push(filename);
   }
 
@@ -101,7 +100,7 @@ async function main() {
 
   const result0 = await pinata.pinFileToIPFS(readableStreamForAsset, {
     pinataMetadata: {
-      name: assets[0],
+      name: "test_" + assets[0],
     },
     pinataOptions: {
       cidVersion: 0,
@@ -131,7 +130,7 @@ async function main() {
 
   const resultForThumbnail = await pinata.pinFileToIPFS(readableStreamForThumbnail, {
     pinataMetadata: {
-      name: thumbnails[0],
+      name: "test_" + thumbnails[0],
     },
     pinataOptions: {
       cidVersion: 0,
@@ -165,7 +164,7 @@ async function main() {
 
   const result = await pinata.pinJSONToIPFS(metadata, {
     pinataMetadata: {
-      name: response.filename,
+      name: "test_" + response.filename,
     },
     pinataOptions: {
       cidVersion: 0,
@@ -190,7 +189,7 @@ async function main() {
     amount: airdropData[key] as number,
   }));
   const airdropRoot = merkleRoot(leaves);
-  const tx = await hhLE.newAirdrop(
+  const tx = await tnLE.newAirdrop(
     `ipfs://${result.IpfsHash}`,
     airdropRoot,
     timestamp
