@@ -25,7 +25,7 @@ const pinata = pinataSDK(
 async function main() {
   // Ledger 연결 확인
   const ledger = new LedgerSigner(ethers.provider);
-  console.log("Deployer address: ", ledger.getAddress());
+  console.log("Deployer address: ", await ledger.getAddress());
   if (!ledger) {
     throw Error("Please configure PRIVATE_KEY at the .env file.");
   }
