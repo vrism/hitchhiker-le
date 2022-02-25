@@ -1,0 +1,13 @@
+{
+  "name": "Rinkeby Gateway",
+  "description": "This is a cool description. This is a cool description. This is a cool description. This is a cool description. This is a cool description.",
+  "image": "ipfs://QmXH2yFtH8BURt2ibRjd52Na59P3XFnsKyhym4gucKcUPi",
+  "animation_url": "ipfs://QmeynYjeMnWVXs4APAfr1GNRqUteAz3ABxYfBYGdstNvVB",
+  "external_url": "https://google.com",
+  "attributes": [
+    {
+      "trait_type": "Rinkeby Collectible",
+      "value": "Rinkeby Gateway"
+    }
+  ]
+}
