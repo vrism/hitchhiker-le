@@ -1,11 +1,11 @@
 {
   "name": "VRISM X Zipcy collab sneakers",
   "description": "A limited edition VRISM sneaker to celebrate the partnership and collaboration with Korean artist Zipcy's Supernormal project.",
-	"image": "ipfs://samplehash",
-  "animation_url": "ipfs://samplehash",
+  "image": "ipfs://QmNiCNTHZJPm42KSZ5jUCCK5kH3FeD71JQ2VUUyUPnbV6T",
+  "animation_url": "ipfs://QmemmdhuBpteN3iZbpe49zjo347TmYHqPeeVdyfv2E57MZ",
   "external_url": "https://vrism.com",
   "attributes": [
-		{
+    {
       "trait_type": "VRISM Limited Edition",
       "value": "Zipcy's Supernormal"
     }
